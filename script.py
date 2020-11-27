@@ -7,7 +7,7 @@ from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
-def docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban):
+def docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan):
     if (choice == 1):
         document.append(Paragraph(title, ParagraphStyle(name = 'title',fontName = 'Times-New-Roman-Bold',fontSize = 12, alignment = TA_CENTER)))
         document.append(Spacer(0*cm,0.5*cm))
@@ -15,7 +15,7 @@ def docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, ke
         document.append(Spacer(0*cm,0.5*cm))
         document.append(Paragraph('2. Nama Panggilan\t: '+panggilan, ParagraphStyle(name = 'panggilan',fontName = 'Times-New-Roman',fontSize = 12)))
         document.append(Spacer(0*cm,0.5*cm))
-        document.append(Paragraph('3. Jurusan\t: '+fakultas, ParagraphStyle(name = 'fakultas',fontName = 'Times-New-Roman',fontSize = 12)))
+        document.append(Paragraph('3. Jurusan\t: '+jurusan, ParagraphStyle(name = 'fakultas',fontName = 'Times-New-Roman',fontSize = 12)))
         document.append(Spacer(0*cm,0.5*cm))
         document.append(Paragraph('4. Keunikan Diri\t: '+keunikan, ParagraphStyle(name = 'alasan',fontName = 'Times-New-Roman',fontSize = 12)))
         document.append(Spacer(0*cm,0.5*cm))
@@ -60,21 +60,23 @@ def prosus():
     deskripsi               = input("Deskripsi Singkat : ").capitalize()
     bukti                   = input("nama file bukti wawancara (.jpg) : ")
     jawaban                 = 'null'
+    jurusan                 = 'null'
 
-    return title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban
+    return title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan
 
 def maus():
     title                   = 'Wawancara MaUS 2020'
     nama                    = input("Nama lengkap narasumber : ")
     panggilan               = input("Nama panggilan narasumber : ").capitalize()
-    fakultas                = input("Jurusan narasumber : ")
+    jurusan                 = input("Jurusan narasumber : ")
+    fakultas                = input("Fakultas narasumber : ").upper()
     keunikan                = input("Keunikan Diri : ").capitalize()
     alasan_pertanyaan       = input("Pertanyaan bebas : ").capitalize()
     jawaban                 = input("Jawaban : ").capitalize()
     deskripsi               = input("Penjelasan singkat/Rangkuman : ").capitalize()
     bukti                   = input("nama file bukti wawancara (.jpg) : ")
 
-    return title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban
+    return title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan
 
 endprogram = False
 while (not endprogram):
@@ -85,11 +87,11 @@ while (not endprogram):
     choice                  = int(input("Masukan 1 untuk mode MAUS\nMasukan 2 untuk mode PROSUS\nPilihan : "))
     
     if (choice == 1):
-        title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban = maus()
+        title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan = maus()
     elif (choice == 2):
-        title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban = prosus()
+        title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan = prosus()
 
-    document = docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban)
+    document = docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan)
     fileName    = nama+'_'+fakultas+'.pdf'
     SimpleDocTemplate(fileName, pagesize = portrait(A5), rightMargin = 1.27*cm, leftMargin = 1.27*cm, topMargin = 1.27*cm, bottomMargin = 1.27*cm).build(document)
     makenew                    = input("Apakah ingin memasukan data lagi ? (Y/N) :").upper()
