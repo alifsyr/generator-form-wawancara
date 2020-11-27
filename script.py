@@ -23,9 +23,9 @@ def docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, ke
         document.append(Spacer(0*cm,0.5*cm))
         document.append(Paragraph('6. Bukti Wawancara\t: ', ParagraphStyle(name = 'bukti',fontName = 'Times-New-Roman',fontSize = 12)))
         document.append(Spacer(0*cm,0.5*cm))
-        document.append(Image('foto/'+bukti+'.png', 11*cm,7*cm))
+        document.append(Image('image/'+bukti+'.png', 11*cm,7*cm))
         document.append(Spacer(0*cm,0.5*cm))
-        document.append(Paragraph('7. Deskripsi Singkat\t: '+deskripsi, ParagraphStyle(name = 'keunikan',fontName = 'Times-New-Roman',fontSize = 12)))
+        document.append(Paragraph('7. Penjelasan Singkat/Rangkuman\t: '+deskripsi, ParagraphStyle(name = 'keunikan',fontName = 'Times-New-Roman',fontSize = 12)))
         document.append(Spacer(0*cm,0.5*cm))
     elif (choice == 2):
         document.append(Paragraph(title, ParagraphStyle(name = 'title',fontName = 'Times-New-Roman-Bold',fontSize = 12, alignment = TA_CENTER)))
@@ -42,7 +42,7 @@ def docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, ke
         document.append(Spacer(0*cm,0.5*cm))
         document.append(Paragraph('6. Bukti Wawancara\t: ', ParagraphStyle(name = 'bukti',fontName = 'Times-New-Roman',fontSize = 12)))
         document.append(Spacer(0*cm,0.5*cm))
-        document.append(Image('foto/'+bukti+'.png', 11*cm,7*cm))
+        document.append(Image('image/'+bukti+'.png', 11*cm,7*cm))
         document.append(Spacer(0*cm,0.5*cm))
         document.append(Paragraph('7. Deskripsi Singkat\t: '+deskripsi, ParagraphStyle(name = 'keunikan',fontName = 'Times-New-Roman',fontSize = 12)))
         document.append(Spacer(0*cm,0.5*cm))
@@ -67,11 +67,11 @@ def maus():
     title                   = 'Wawancara MaUS 2020'
     nama                    = input("Nama lengkap narasumber : ")
     panggilan               = input("Nama panggilan narasumber : ").capitalize()
-    fakultas                = input("Jurusan narasumber : ").upper()
+    fakultas                = input("Jurusan narasumber : ")
     keunikan                = input("Keunikan Diri : ").capitalize()
     alasan_pertanyaan       = input("Pertanyaan bebas : ").capitalize()
     jawaban                 = input("Jawaban : ").capitalize()
-    deskripsi               = input("Penjelasan Singkat : ").capitalize()
+    deskripsi               = input("Penjelasan singkat/Rangkuman : ").capitalize()
     bukti                   = input("nama file bukti wawancara (.jpg) : ")
 
     return title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban
