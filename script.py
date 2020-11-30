@@ -6,9 +6,10 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+import csv
 
-def docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan):
-    if (choice == 1):
+def docs(document,title,choice,nama,panggilan,fakultas,jurusan,alasan_pertanyaan,jawaban,keunikan,bukti,deskripsi_penjelasan):
+    if (choice == "maus"):
         document.append(Paragraph(title, ParagraphStyle(name = 'title',fontName = 'Times-New-Roman-Bold',fontSize = 12, alignment = TA_CENTER)))
         document.append(Spacer(0*cm,0.5*cm))
         document.append(Paragraph('1. Nama Lengkap\t: '+nama, ParagraphStyle(name = 'nama',fontName = 'Times-New-Roman',fontSize = 12)))
@@ -25,9 +26,9 @@ def docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, ke
         document.append(Spacer(0*cm,0.5*cm))
         document.append(Image('image/'+bukti+'.png', 11*cm,7*cm))
         document.append(Spacer(0*cm,0.5*cm))
-        document.append(Paragraph('7. Penjelasan Singkat/Rangkuman\t: '+deskripsi, ParagraphStyle(name = 'keunikan',fontName = 'Times-New-Roman',fontSize = 12)))
+        document.append(Paragraph('7. Penjelasan Singkat/Rangkuman\t: '+deskripsi_penjelasan, ParagraphStyle(name = 'keunikan',fontName = 'Times-New-Roman',fontSize = 12)))
         document.append(Spacer(0*cm,0.5*cm))
-    elif (choice == 2):
+    elif (choice == "prosus"):
         document.append(Paragraph(title, ParagraphStyle(name = 'title',fontName = 'Times-New-Roman-Bold',fontSize = 12, alignment = TA_CENTER)))
         document.append(Spacer(0*cm,0.5*cm))
         document.append(Paragraph('1. Nama Lengkap\t: '+nama, ParagraphStyle(name = 'nama',fontName = 'Times-New-Roman',fontSize = 12)))
@@ -44,56 +45,31 @@ def docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, ke
         document.append(Spacer(0*cm,0.5*cm))
         document.append(Image('image/'+bukti+'.png', 11*cm,7*cm))
         document.append(Spacer(0*cm,0.5*cm))
-        document.append(Paragraph('7. Deskripsi Singkat\t: '+deskripsi, ParagraphStyle(name = 'keunikan',fontName = 'Times-New-Roman',fontSize = 12)))
+        document.append(Paragraph('7. Deskripsi Singkat\t: '+deskripsi_penjelasan, ParagraphStyle(name = 'keunikan',fontName = 'Times-New-Roman',fontSize = 12)))
         document.append(Spacer(0*cm,0.5*cm))
 
 
     return document
 
-def prosus():
-    title                   = 'Wawancara PROSUS 2020'
-    nama                    = input("Nama lengkap narasumber : ")
-    panggilan               = input("Nama panggilan narasumber : ").capitalize()
-    fakultas                = input("Fakultas narasumber : ").upper()
-    alasan_pertanyaan       = input("Alasan Masuk US : ").capitalize()
-    keunikan                = input("Keunikan Diri : ").capitalize()
-    deskripsi               = input("Deskripsi Singkat : ").capitalize()
-    bukti                   = input("nama file bukti wawancara (.jpg) : ")
-    jawaban                 = 'null'
-    jurusan                 = 'null'
+with open("data.csv") as csvfile:
+    reader = csv.reader(csvfile, delimiter=',')
+    data = [row for row in reader]
 
-    return title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan
-
-def maus():
-    title                   = 'Wawancara MaUS 2020'
-    nama                    = input("Nama lengkap narasumber : ")
-    panggilan               = input("Nama panggilan narasumber : ").capitalize()
-    jurusan                 = input("Jurusan narasumber : ")
-    fakultas                = input("Fakultas narasumber : ").upper()
-    keunikan                = input("Keunikan Diri : ").capitalize()
-    alasan_pertanyaan       = input("Pertanyaan bebas : ").capitalize()
-    jawaban                 = input("Jawaban : ").capitalize()
-    deskripsi               = input("Penjelasan singkat/Rangkuman : ").capitalize()
-    bukti                   = input("nama file bukti wawancara (.jpg) : ")
-
-    return title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan
-
-endprogram = False
-while (not endprogram):
+for i in data:
     pdfmetrics.registerFont(TTFont('Times-New-Roman', 'font/LiberationSerif-Regular.ttf'))
     pdfmetrics.registerFont(TTFont('Times-New-Roman-Bold', 'font/LiberationSerif-Bold.ttf'))
     document                = []
 
-    choice                  = int(input("Masukan 1 untuk mode MAUS\nMasukan 2 untuk mode PROSUS\nPilihan : "))
-    
-    if (choice == 1):
-        title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan = maus()
-    elif (choice == 2):
-        title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan = prosus()
 
-    document = docs(choice,document,title, nama, panggilan, fakultas, alasan_pertanyaan, keunikan, deskripsi, bukti, jawaban, jurusan)
-    fileName    = nama+'_'+fakultas+'.pdf'
-    SimpleDocTemplate(fileName, pagesize = portrait(A5), rightMargin = 1.27*cm, leftMargin = 1.27*cm, topMargin = 1.27*cm, bottomMargin = 1.27*cm).build(document)
-    makenew                    = input("Apakah ingin memasukan data lagi ? (Y/N) :").upper()
-    if (makenew == "N"):
-        exit()
+    if (i[1] != "Nama Lengkap"):
+        if (i[0] == "prosus"):
+            title = "Wawancara PROSUS 2020"
+            document = docs(document,title,i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+            fileName    = i[1]+'_'+i[3]+'.pdf'
+            SimpleDocTemplate(fileName, pagesize = portrait(A5), rightMargin = 1.27*cm, leftMargin = 1.27*cm, topMargin = 1.27*cm, bottomMargin = 1.27*cm).build(document)
+
+        elif (i[0] == "maus"):
+            title = "Wawancara MaUS 2020"
+            document = docs(document,title,i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+            fileName    = i[1]+'_'+i[3]+'.pdf'
+            SimpleDocTemplate(fileName, pagesize = portrait(A5), rightMargin = 1.27*cm, leftMargin = 1.27*cm, topMargin = 1.27*cm, bottomMargin = 1.27*cm).build(document)
